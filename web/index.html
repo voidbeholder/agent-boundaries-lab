@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Границы агента · лаборатория</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">ПРАКТИКА / HUMAN-IN-THE-LOOP</span><h1>Границы агента</h1><p>Модель предлагает. Harness проверяет. Инструмент исполняет.</p></div><div class="connection" id="connection">Проверяем подключение…</div></header>
+  <main>
+    <section class="setup panel">
+      <div class="section-title"><h2>01 / Условия эксперимента</h2><span>Все заказы учебные</span></div>
+      <div class="setup-grid">
+        <label>Сценарий<select id="scenario"></select></label>
+        <p id="lesson" class="lesson"></p>
+      </div>
+      <label>Поручение агенту<textarea id="goal" rows="2" maxlength="4000"></textarea></label>
+      <details><summary>Лимиты harness и описание инструментов</summary>
+        <div class="limits">
+          <label>Обращения к LLM<input id="max_turns" type="number" min="1" max="30" value="12"></label>
+          <label>Исполнения инструментов<input id="max_tool_calls" type="number" min="1" max="60" value="20"></label>
+          <label>Повторы одной ошибки<input id="max_retries" type="number" min="0" max="5" value="2"></label>
+          <label>Активное время, сек.<input id="active_seconds" type="number" min="1" max="600" value="120"></label>
+          <label>Срок согласия, сек.<input id="approval_seconds" type="number" min="1" max="3600" value="300"></label>
+          <label>Бюджет, USD<input id="max_usd" type="number" min="0.000001" max="5" step="0.001" placeholder="Не задан"></label>
+        </div>
+        <p class="muted">Ожидание человека не расходует активное время. Стоимость — оценка по тарифам из .env; без тарифов она неизвестна. Лимиты фиксируются при запуске.</p>
+        <details><summary>Что модель знает об инструментах</summary><pre id="tools"></pre></details>
+      </details>
+      <div class="actions"><button id="start">Запустить новую задачу</button><button id="cancel" class="secondary" disabled>Остановить</button><button id="export" class="ghost" disabled>Скачать журнал JSON</button></div>
+      <div id="notice" role="status" aria-live="polite"></div>
+    </section>
+    <div class="metrics" id="metrics"><span>Запустите задачу, чтобы увидеть работу агента</span></div>
+    <div class="workspace">
+      <section class="panel"><div class="section-title"><h2>02 / Диалог и участие человека</h2></div><div id="dialog"><p class="empty">Здесь появятся ответы живой модели и вопросы.</p></div><div id="human"></div></section>
+      <section class="panel"><div class="section-title"><h2>03 / Решения и исполнение</h2><span id="status">Нет запуска</span></div><div class="legend"><span class="model">Модель</span><span class="harness">Harness</span><span class="tool">Инструмент</span><span class="human">Человек</span></div><div id="trace"><p class="empty">Выбор инструмента и его исполнение — разные события.</p></div></section>
+      <section class="panel"><div class="section-title"><h2>04 / Фактическое состояние</h2></div><div id="state"><p class="empty">Успех проверяем здесь, а не по слову «готово».</p></div><div id="handoff"></div></section>
+    </div>
+    <footer>Локальный учебный стенд · реальные запросы к выбранной LLM · фиктивные заказы и возвраты · состояние хранится до перезапуска сервера</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

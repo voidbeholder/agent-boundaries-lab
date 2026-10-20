@@ -1,0 +1,6 @@
+[project]
+name = "agent-boundaries-lab"
+version = "0.1.0"
+description = "Учебный стенд: инструменты, harness и границы автономии агента"
+requires-python = ">=3.11"
+dependencies = []
